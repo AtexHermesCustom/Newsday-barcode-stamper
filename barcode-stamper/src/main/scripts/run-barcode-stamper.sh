@@ -20,6 +20,11 @@ test -z "$INSTALLDIR" && INSTALLDIR=.
 # 2 - barcode image to stamp
 # 3 - destination PDF
 #####################
+if [[ "$1" = "" || "$2" = "" || "$3" = "" ]]; then
+	echo "Invalid arguments"
+	echo "Syntax: $0 SOURCE_PDF BARCODE_IMAGE DEST_PDF"
+	exit -1
+fi
 PROGARGS="$1 $2 $3"
 
 # set config files
@@ -37,6 +42,6 @@ export CLASSPATH
 # initiate export
 COMMAND="$JAVA_HOME/bin/java 
 	-Djava.util.logging.config.file=$CONFDIR/$LOGPROPS
-	com.atex.h11.newsday.barcode.BarcodeStamper -p $CONFDIR/$PROPS $PROGARGS"
+	com.atex.h11.newsday.barcode.BarcodeStamper $CONFDIR/$PROPS $PROGARGS"
 echo $COMMAND
 exec $COMMAND
