@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.atex.h11.newsday.barcode</groupId>
   <artifactId>barcode-stamper</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0</version>
   <name>Barcode Stamper</name>
   <description>Barcode Stamper</description>
   
