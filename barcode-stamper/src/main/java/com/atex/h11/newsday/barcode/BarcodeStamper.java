@@ -22,15 +22,24 @@ public class BarcodeStamper {
 	public static void main(String[] args) {
 		logger.entering(loggerName, "main");
 		logger.info("barcode-stamper initiated. Arguments: " + Arrays.toString(args));
-		
-		String propsPath = args[0];
-		String origPdfPath = args[1];
-		String barcodePath = args[2];
-		String destPdfPath = args[3];
-		
+				
 		try {
+			if (args.length < 4) {
+				throw new Exception("Invalid number of arguments.\n" +
+					"Syntax: barcode-stamper <properties file> <source Pdf path> <barcode image path> <destination Pdf path>");
+			}
+			
+			String propsPath = args[0];
+			String sourcePdfPath = args[1];
+			String barcodePath = args[2];
+			String destPdfPath = args[3];
+			logger.fine("Args: propsPath=" + propsPath + ", sourcePdfPath=" + sourcePdfPath +
+					", barcodePath=" + barcodePath + ", destPdfPath=" + destPdfPath);
+					
+			props = new Properties();
 			props.load(new FileInputStream(propsPath));
-			stamp(origPdfPath, barcodePath, destPdfPath);
+			
+			stamp(sourcePdfPath, barcodePath, destPdfPath);
 			
 		} catch (Exception e) {
         	logger.log(Level.SEVERE, "Error encountered", e);
@@ -41,7 +50,7 @@ public class BarcodeStamper {
         }
 	}
 	
-	private static void stamp(String origPdfPath, String imagePath, String destPdfPath) 
+	private static void stamp(String sourcePdfPath, String imagePath, String destPdfPath) 
 			throws IOException, DocumentException {
 		
 		// retrieve settings from properties file
@@ -50,14 +59,16 @@ public class BarcodeStamper {
 		float rotDeg = Float.parseFloat(props.getProperty("rotationDegrees"));
 		float fitW = Float.parseFloat(props.getProperty("fitWidth"));
 		float fitH = Float.parseFloat(props.getProperty("fitHeight"));
+		logger.fine("Settings: absX=" + absX + ", absY=" + absY + ", rotDeg=" + rotDeg +
+				", fitW=" + fitW + ", fitH=" + fitH);
 		
-    	PdfReader pdfReader = new PdfReader(origPdfPath);
+    	PdfReader pdfReader = new PdfReader(sourcePdfPath);
         PdfStamper pdfStamper = new PdfStamper(pdfReader,
               new FileOutputStream(destPdfPath));
 
         Image image = Image.getInstance(imagePath);
 
-        for(int i=1; i<= pdfReader.getNumberOfPages(); i++){
+        for(int i = 1; i <= pdfReader.getNumberOfPages(); i++){
             //PdfContentByte content = pdfStamper.getUnderContent(i);
         	PdfContentByte content = pdfStamper.getOverContent(i);
         	
@@ -76,6 +87,7 @@ public class BarcodeStamper {
         }
 
         pdfStamper.close();
+        logger.info("Image: " + imagePath + " stamped to Pdf. New Pdf: " + destPdfPath);
 	}
 	
 }
