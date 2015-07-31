@@ -44,7 +44,12 @@ public class BarcodeStamper {
 	private static void stamp(String origPdfPath, String imagePath, String destPdfPath) 
 			throws IOException, DocumentException {
 		
-		
+		// retrieve settings from properties file
+		float absX = Float.parseFloat(props.getProperty("absoluteX"));
+		float absY = Float.parseFloat(props.getProperty("absoluteY"));
+		float rotDeg = Float.parseFloat(props.getProperty("rotationDegrees"));
+		float fitW = Float.parseFloat(props.getProperty("fitWidth"));
+		float fitH = Float.parseFloat(props.getProperty("fitHeight"));
 		
     	PdfReader pdfReader = new PdfReader(origPdfPath);
         PdfStamper pdfStamper = new PdfStamper(pdfReader,
@@ -56,10 +61,16 @@ public class BarcodeStamper {
             //PdfContentByte content = pdfStamper.getUnderContent(i);
         	PdfContentByte content = pdfStamper.getOverContent(i);
         	
+        	/* sample
             image.setAbsolutePosition(370f, 765f);
             //image.setInitialRotation(90);
             image.setRotationDegrees(270);
             image.scaleToFit(160, 160);
+            */
+        	
+            image.setAbsolutePosition(absX, absY);
+            image.setRotationDegrees(rotDeg);
+            image.scaleToFit(fitW, fitH);
             
             content.addImage(image);
         }
