@@ -3,6 +3,7 @@ package com.atex.h11.newsday.barcode;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.itextpdf.text.DocumentException;
@@ -17,9 +18,17 @@ public class BarcodeStamper {
 	
 	public static void main(String[] args) {
 		logger.entering(loggerName, "main");
-		logger.info("Budget Export started. Arguments: " + Arrays.toString(args));
+		logger.info("barcode-stamper initiated. Arguments: " + Arrays.toString(args));
 		
-		
+		try {
+			
+			
+		} catch (Exception e) {
+        	logger.log(Level.SEVERE, "Error encountered", e);
+        	
+        } finally {
+		    logger.exiting(loggerName, "main");        	        	        	
+        }
 	}
 	
 }
