@@ -87,6 +87,7 @@ public class BarcodeStamper {
         }
 
         pdfStamper.close();
+        pdfReader.close();
         logger.info("Image: " + imagePath + " stamped to Pdf. New Pdf: " + destPdfPath);
 	}
 	
