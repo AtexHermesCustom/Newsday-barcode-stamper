@@ -43,5 +43,7 @@ export CLASSPATH
 COMMAND="$JAVA_HOME/bin/java 
 	-Djava.util.logging.config.file=$CONFDIR/$LOGPROPS
 	com.atex.h11.newsday.barcode.BarcodeStamper $CONFDIR/$PROPS $PROGARGS"
-echo $COMMAND
+echo "Calling: $COMMAND"
 exec $COMMAND
+
+exit 0
